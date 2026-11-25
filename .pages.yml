@@ -1,0 +1,32 @@
+media:
+  input: images
+  output: /images
+
+content:
+  - name: anuncios
+    label: Anuncios
+    type: collection
+    path: content/anuncios
+    format: json
+    filename: "{year}-{month}-{day}-{primary}.json"
+    subfields:
+      - name: titulo
+        label: Título del anuncio
+        type: string
+        required: true
+      - name: fecha
+        label: Fecha
+        type: date
+      - name: categoria
+        label: Categoría
+        type: select
+        options:
+          values:
+            - Comunicado
+            - Evento
+            - KvK
+            - Importante
+      - name: texto
+        label: Contenido
+        type: text
+        required: true
