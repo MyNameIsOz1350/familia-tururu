@@ -1,6 +1,4 @@
-media:
-  input: images
-  output: /images
+media: media
 
 content:
   - name: anuncios
@@ -8,8 +6,8 @@ content:
     type: collection
     path: content/anuncios
     format: json
-    filename: "{year}-{month}-{day}-{primary}.json"
-    subfields:
+    filename: "{primary}.json"
+    fields:
       - name: titulo
         label: Título del anuncio
         type: string
