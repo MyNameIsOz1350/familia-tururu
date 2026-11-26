@@ -8,15 +8,10 @@
 *{box-sizing:border-box}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080d16}
 .cover{position:absolute;width:min(100vw,177.586vh);height:min(100vh,56.31vw);aspect-ratio:1648/928;left:50%;top:50%;transform:translate(-50%,-50%)}
-.cover img{display:block;width:100%;height:100%;object-fit:contain}
+.cover img{display:block;width:100%;height:100%;object-fit:contain;filter:url(#localized-motion)}
 .cover::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 78%,rgba(255,174,45,.13),transparent 43%);opacity:.45;animation:ambientGlow 6s ease-in-out infinite alternate}
-.sky-clouds{position:absolute;z-index:1;inset:0 0 20%;pointer-events:none;overflow:hidden;opacity:.58;mix-blend-mode:screen}
-.sky-clouds::before,.sky-clouds::after{content:"";position:absolute;inset:-15%;background:radial-gradient(ellipse at 12% 29%,rgba(255,190,125,.30) 0 9%,transparent 25%),radial-gradient(ellipse at 88% 32%,rgba(255,186,110,.28) 0 9%,transparent 25%),radial-gradient(ellipse at 28% 17%,rgba(160,190,225,.24) 0 8%,transparent 24%),radial-gradient(ellipse at 75% 16%,rgba(160,190,225,.22) 0 8%,transparent 24%);filter:blur(12px);animation:cloudDrift 24s ease-in-out infinite alternate}
-.sky-clouds::after{opacity:.8;transform:scale(1.12);animation-duration:36s;animation-direction:alternate-reverse}
 .light-rays{position:absolute;z-index:1;inset:0;pointer-events:none;opacity:.42;background:repeating-conic-gradient(from 248deg at 50% 88%,transparent 0deg 5deg,rgba(255,222,154,.30) 6deg 7deg,transparent 8deg 14deg);mask-image:radial-gradient(ellipse at 50% 88%,#000 0%,rgba(0,0,0,.75) 30%,transparent 72%);animation:raysBreathe 7s ease-in-out infinite alternate}
 .embers{position:absolute;z-index:2;inset:8% 4% 8%;pointer-events:none;background-image:radial-gradient(circle,rgba(255,226,145,.95) 0 1px,transparent 2px),radial-gradient(circle,rgba(255,178,67,.8) 0 1.2px,transparent 2.4px),radial-gradient(circle,rgba(255,244,194,.75) 0 .8px,transparent 2px);background-size:173px 211px,257px 293px,319px 239px;background-position:12px 20px,88px 72px,145px 31px;animation:emberFloat 18s linear infinite;opacity:.52}
-.flag-wave{position:absolute;z-index:2;top:29%;height:26%;width:8.5%;pointer-events:none;opacity:.75;mix-blend-mode:screen;background:linear-gradient(100deg,transparent 0%,rgba(255,203,115,.08) 18%,rgba(255,244,205,.42) 46%,rgba(255,191,82,.18) 68%,transparent 100%);clip-path:polygon(8% 0,100% 12%,86% 76%,48% 100%,0 79%);transform-origin:50% 0;animation:flagRipple 3.8s ease-in-out infinite}
-.flag-left{left:7.8%}.flag-right{right:7.8%;animation-delay:-1.9s}
 @keyframes cloudDrift{from{transform:translateX(-3%) translateY(1%)}to{transform:translateX(3%) translateY(-1%)}}
 @keyframes raysBreathe{from{opacity:.12;transform:scale(1)}to{opacity:.3;transform:scale(1.06)}}
 @keyframes emberFloat{from{background-position:12px 20px,88px 72px,145px 31px;transform:translateY(3%)}to{background-position:42px -190px,28px -220px,205px -170px;transform:translateY(-3%)}}
@@ -33,8 +28,21 @@ html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080d16}
 .enter:hover{filter:brightness(1.18);transform:scale(1.02)}
 .enter:focus-visible{outline:3px solid #fff1b8;outline-offset:4px}
 @media(max-width:600px){.enter{border-width:2px;border-radius:9px;letter-spacing:.04em}}
-@media(prefers-reduced-motion:reduce){.cover::after,.shield-shine::after,.enter,.enter::after,.sky-clouds::before,.sky-clouds::after,.light-rays,.embers,.flag-wave{animation:none}}
+@media(prefers-reduced-motion:reduce){.cover::after,.shield-shine::after,.enter,.enter::after,.light-rays,.embers{animation:none}}
 </style></head><body>
+<svg aria-hidden="true" width="0" height="0" style="position:absolute">
+<defs>
+<filter id="localized-motion" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+<feTurbulence type="fractalNoise" baseFrequency=".012 .035" numOctaves="2" seed="8" result="wind">
+<animate attributeName="baseFrequency" values=".010 .028;.014 .040;.010 .028" dur="7s" repeatCount="indefinite"/>
+</feTurbulence>
+<feDisplacementMap in="SourceGraphic" in2="wind" scale="7" xChannelSelector="R" yChannelSelector="G" result="warped"/>
+<feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1672 941'%3E%3Crect width='1672' height='941' fill='black'/%3E%3Cg fill='white'%3E%3Cpath d='M0 176 Q45 145 83 163 Q112 133 145 165 Q183 155 213 190 Q250 207 270 255 Q255 300 216 322 Q166 336 121 311 Q65 307 0 276Z'/%3E%3Cpath d='M1672 176 Q1627 145 1589 163 Q1560 133 1527 165 Q1489 155 1459 190 Q1422 207 1402 255 Q1417 300 1456 322 Q1506 336 1551 311 Q1607 307 1672 276Z'/%3E%3Cpath d='M111 245 L260 296 L222 585 L76 510 L74 324Z'/%3E%3Cpath d='M1561 245 L1412 296 L1450 585 L1596 510 L1598 324Z'/%3E%3C/g%3E%3C/svg%3E" x="0" y="0" width="100%" height="100%" result="motionMask"/>
+<feComposite in="warped" in2="motionMask" operator="in" result="movingParts"/>
+<feComposite in="SourceGraphic" in2="motionMask" operator="out" result="stillParts"/>
+<feMerge><feMergeNode in="stillParts"/><feMergeNode in="movingParts"/></feMerge>
+</filter>
+</defs></svg>
 <main class="cover">
 <img src="d0e1b123-1b4b-4bc7-836b-5a2205ca3bdc.png" alt="Familia Tururu — Reino 1350">
 <span class="sky-clouds" aria-hidden="true"></span>
