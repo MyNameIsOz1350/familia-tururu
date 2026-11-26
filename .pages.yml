@@ -65,6 +65,7 @@ content:
             - Actividad recurrente
             - KvK
             - Evento del reino
+            - Arca de Osiris
             - Otro
       - name: hora_cdmx
         label: Hora de Ciudad de México
@@ -95,6 +96,7 @@ content:
             - Jerarquía
             - Reglamento general
             - MGE
+            - Actividad y granjas
             - Otro
       - name: texto
         label: Contenido
@@ -118,13 +120,43 @@ content:
           values:
             - KvK
             - Comandantes y marchas
-            - Campo abierto
+            - Arca de Osiris
             - Otro
       - name: resumen
         label: Resumen
         type: string
       - name: texto
         label: Contenido de la guía
+        type: text
+        required: true
+      - name: enlace
+        label: Enlace opcional
+        type: string
+
+  - name: reclutamiento
+    label: Reclutamiento
+    type: collection
+    path: content/reclutamiento
+    format: json
+    filename: "{primary}.json"
+    fields:
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+      - name: categoria
+        label: Subsección
+        type: select
+        options:
+          values:
+            - Requisitos
+            - Plazas disponibles
+            - Contacto
+      - name: resumen
+        label: Resumen
+        type: string
+      - name: texto
+        label: Contenido
         type: text
         required: true
       - name: enlace
