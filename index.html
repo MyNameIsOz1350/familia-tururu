@@ -78,23 +78,11 @@ footer{border-top:1px solid var(--line);padding:30px 22px;text-align:center;colo
   <div id="announcementsList" aria-live="polite"><p class="small">Cargando anuncios...</p></div>
 </div><div class="callout"><div class="kicker">Prioridad de avisos</div><h2 style="font-size:25px">Lo más importante, primero.</h2><p class="small">Los avisos urgentes aparecen primero, seguidos de los importantes y después los normales. Cada comunicado puede mostrar la hora de Ciudad de México y la hora UTC del juego.</p><a class="btn" href="#reglamentos">Consultar normas</a></div></div></section>
 <section class="wrap" id="eventos" style="background:#15181e;max-width:none"><div style="max-width:1136px;margin:auto"><div class="section-head"><div class="kicker">Agenda del reino</div><h2>Eventos y KvK</h2><p class="lead">Horarios de referencia y espacio para publicar la agenda de cada semana.</p></div>
-<div class="grid">
-  <article class="card"><span class="tag">Actividad recurrente</span><h3>Ark of Osiris</h3><p>Horario de referencia de la alianza: domingo, 20:00 UTC. Confirma cada convocatoria con los oficiales.</p></article>
-  <article class="card"><span class="tag">Temporada</span><h3>Kingdom vs Kingdom</h3><p>Publica aquí horarios de guerra, objetivos, asignaciones y avisos de campo.</p></article>
-  <article class="card"><span class="tag">Calendario</span><h3>Eventos del reino</h3><p>Agrega fechas de eventos, actividades internas y recordatorios importantes.</p></article>
-</div></div></section>
+<div class="grid" id="eventsList"><p class="small">Cargando eventos...</p></div></div></section>
 <section class="wrap" id="reglamentos"><div class="section-head"><div class="kicker">Organización</div><h2>Reglamentos y jerarquía</h2><p class="lead">Consulta las normas generales y los criterios de participación. Los documentos oficiales deben insertarse o enlazarse en este espacio.</p></div>
-<div class="grid">
-  <article class="card"><span class="tag">Estructura</span><h3>Jerarquía del reino</h3><p>Espacio para explicar rangos, responsabilidades, criterios de ascenso y participación.</p></article>
-  <article class="card"><span class="tag">Normativa</span><h3>Reglamento general</h3><p>Publica aquí los requisitos semanales, contribuciones y reglas de convivencia vigentes.</p></article>
-  <article class="card"><span class="tag">Competencia</span><h3> criterios de MGE</h3><p>Incluye prioridades, requisitos y procedimientos aprobados por la administración.</p></article>
-</div></section>
+<div class="grid" id="rulesList"><p class="small">Cargando reglamentos...</p></div></section>
 <section class="wrap" id="estrategias" style="background:#15181e;max-width:none"><div style="max-width:1136px;margin:auto"><div class="section-head"><div class="kicker">Conocimiento compartido</div><h2>Guías y estrategias</h2><p class="lead">Biblioteca para reunir guías de KvK, comandantes, formaciones y tácticas de campo.</p></div>
-<div class="grid">
-  <article class="card"><span class="tag">Guías</span><h3>Guías de KvK</h3><p>Manuales, mapas, fases de temporada y objetivos operativos.</p></article>
-  <article class="card"><span class="tag">Comandantes</span><h3>Comandantes y marchas</h3><p>Configuraciones, habilidades, equipo y recomendaciones por tipo de marcha.</p></article>
-  <article class="card"><span class="tag">Campo abierto</span><h3>Estrategias de batalla</h3><p>Consejos de coordinación, posicionamiento, rallies y guarniciones.</p></article>
-</div></div></section>
+<div class="grid" id="strategiesList"><p class="small">Cargando guías...</p></div></div></section>
 <section class="wrap" id="reclutamiento"><div class="section-head"><div class="kicker">Crece con nosotros</div><h2>Reclutamiento</h2><p class="lead">¿Quieres formar parte de Familia Tururu? Aquí se publicarán las plazas disponibles y los requisitos actualizados.</p></div>
 <div class="callout"><h2 style="font-size:26px">Buscamos jugadores comprometidos</h2><p class="small">Guerreros activos, trabajo en equipo y compromiso durante KvK. Los requisitos específicos y el contacto de reclutamiento serán publicados por la administración.</p><p><strong>Contacto:</strong> MyNameIsOz <span class="small">(confirmar disponibilidad y canal de contacto)</span></p></div>
 </section>
@@ -136,5 +124,44 @@ async function loadAnnouncements(){
  }catch(error){target.innerHTML='<p class="small">No fue posible cargar los anuncios. Comprueba que la carpeta content/anuncios exista y que el repositorio sea público.</p>';}
 }
 loadAnnouncements();
+
+async function loadCollection(folder,targetId,emptyMessage,kind){
+ const target=document.getElementById(targetId);
+ const api='https://api.github.com/repos/MyNameIsOz1350/familia-tururu/contents/content/'+folder;
+ try{
+  const response=await fetch(api,{headers:{'Accept':'application/vnd.github+json'},cache:'no-store'});
+  if(!response.ok) throw new Error('No se pudo consultar '+folder);
+  const files=await response.json();
+  const entries=await Promise.all(files.filter(file=>file.type==='file'&&file.name.toLowerCase().endsWith('.json')).map(async file=>{
+   const r=await fetch(file.download_url,{cache:'no-store'});
+   if(!r.ok)return null;
+   return await r.json();
+  }));
+  const clean=entries.filter(item=>item&&(item.titulo||item.title));
+  if(!clean.length){target.innerHTML='<p class="small">'+emptyMessage+'</p>';return;}
+  target.replaceChildren();
+  clean.forEach(item=>{
+   const card=document.createElement('article');card.className='card';
+   const tag=document.createElement('span');tag.className='tag';tag.textContent=item.categoria||'Información';card.append(tag);
+   const title=document.createElement('h3');title.textContent=item.titulo||item.title;card.append(title);
+   const summary=item.resumen;
+   if(summary){const p=document.createElement('p');p.textContent=summary;card.append(p);}
+   const body=item.texto||item.contenido||item.text;
+   if(body){const p=document.createElement('p');p.textContent=body;p.style.marginTop=summary?'12px':'8px';p.style.whiteSpace='pre-wrap';card.append(p);}
+   if(kind==='events'){
+    const meta=[item.fecha,item.hora_cdmx?'CDMX: '+item.hora_cdmx:null,item.hora_utc?'UTC: '+item.hora_utc:null].filter(Boolean);
+    if(meta.length){const m=document.createElement('div');m.className='meta';m.textContent=meta.join(' · ');card.append(m);}
+   }
+   if(kind==='strategies'&&item.enlace){
+    try{const url=new URL(item.enlace);if(url.protocol==='https:'||url.protocol==='http:'){const a=document.createElement('a');a.href=url.href;a.target='_blank';a.rel='noopener noreferrer';a.className='btn';a.style.marginTop='14px';a.textContent='Abrir recurso';card.append(a);}}catch(e){}
+   }
+   target.append(card);
+  });
+ }catch(error){target.innerHTML='<p class="small">No fue posible cargar el contenido. Revisa la colección '+folder+' en Pages CMS.</p>';}
+}
+
+loadCollection('eventos','eventsList','Todavía no hay eventos publicados. Agrega uno desde Pages CMS.','events');
+loadCollection('reglamentos','rulesList','Todavía no hay reglamentos publicados. Agrega uno desde Pages CMS.','rules');
+loadCollection('estrategias','strategiesList','Todavía no hay guías publicadas. Agrega una desde Pages CMS.','strategies');
 </script>
 </body></html>
