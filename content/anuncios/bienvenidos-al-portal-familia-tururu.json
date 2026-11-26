@@ -2,5 +2,8 @@
   "titulo": "Bienvenidos al portal Familia Tururu",
   "fecha": "2026-11-25",
   "categoria": "Importante",
-  "texto": "Se le informa a la comunidad que vamos a quemar lacras,hasta aqui mi reporte joaquin"
+  "prioridad": "Urgente",
+  "hora_cdmx": "13:00",
+  "hora_utc": "19:00",
+  "texto": "Anuncio urgente para quemar gente"
 }
