@@ -101,4 +101,33 @@ async function loadHomeList(folder,targetId,kind){
  }catch(e){target.innerHTML='<p class="empty">No se pudo cargar la información. Consulta la sección completa.</p>';}
 }
 loadHomeList('anuncios','homeAnnouncements','announcements');
+
+const SUPABASE_URL='https://fgfndawqtxcpfiotkygk.supabase.co';
+const SUPABASE_KEY='sb_publishable_08prM7q5gg2Q7EpmFuUTmQ_gYGFjGpG';
+const guestForm=document.getElementById('guestbookForm');
+const guestStatus=document.getElementById('guestbookStatus');
+const guestEntries=document.getElementById('guestbookEntries');
+const guestHeaders={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json'};
+function guestDate(value){return new Intl.DateTimeFormat('es-MX',{dateStyle:'medium',timeStyle:'short',timeZone:'America/Mexico_City'}).format(new Date(value));}
+async function loadGuestbook(){
+ try{
+  const response=await fetch(SUPABASE_URL+'/rest/v1/guestbook_entries?select=id,name,message,created_at&order=created_at.desc&limit=20',{headers:{'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY},cache:'no-store'});
+  if(!response.ok)throw new Error(await response.text());
+  const rows=await response.json();guestEntries.replaceChildren();
+  if(!rows.length){const p=document.createElement('p');p.className='empty';p.textContent='Aún no hay firmas. ¡Sé el primero en dejar la tuya!';guestEntries.append(p);return;}
+  rows.forEach(row=>{const article=document.createElement('article');article.className='guestbook-entry';const name=document.createElement('strong');name.textContent=row.name;const message=document.createElement('p');message.textContent=row.message;const time=document.createElement('time');time.textContent=guestDate(row.created_at);article.append(name,message,time);guestEntries.append(article);});
+ }catch(error){guestEntries.innerHTML='<p class="empty">No se pudieron cargar las firmas. Inténtalo más tarde.</p>';console.error('Libro de visitas:',error);}
+}
+guestForm.addEventListener('submit',async event=>{
+ event.preventDefault();const button=guestForm.querySelector('button[type="submit"]');const name=guestForm.elements.name.value.trim();const message=guestForm.elements.message.value.trim();
+ if(!name||!message)return;
+ button.disabled=true;guestStatus.textContent='Guardando tu firma...';
+ try{
+  const response=await fetch(SUPABASE_URL+'/rest/v1/guestbook_entries',{method:'POST',headers:{...guestHeaders,'Prefer':'return=minimal'},body:JSON.stringify({name,message})});
+  if(!response.ok)throw new Error(await response.text());
+  guestForm.reset();guestStatus.textContent='¡Tu firma quedó registrada! Gracias por visitar Familia Tururu.';await loadGuestbook();
+ }catch(error){guestStatus.textContent='No se pudo guardar tu firma. Inténtalo de nuevo.';console.error('Error al guardar firma:',error);}
+ finally{button.disabled=false;}
+});
+loadGuestbook();
 </script></body></html>
