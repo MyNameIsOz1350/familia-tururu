@@ -72,7 +72,31 @@ nav a:hover{color:var(--gold2);text-shadow:0 0 12px rgba(240,217,159,.42)}
 .item{box-shadow:inset 0 1px 0 rgba(240,217,159,.035)}
 footer{border-top-color:rgba(214,179,107,.3);background:linear-gradient(180deg,rgba(214,179,107,.025),transparent)}
 @media(prefers-reduced-motion:reduce){nav a,.quick{transition:none!important}}
-.brand-crest{width:42px;height:52px;object-fit:contain;display:block;filter:drop-shadow(0 0 7px rgba(214,179,107,.28));flex:0 0 auto}.brand{gap:12px}</style></head><body><div class="topline"></div><header><div class="nav">
+.brand-crest{width:42px;height:52px;object-fit:contain;display:block;filter:drop-shadow(0 0 7px rgba(214,179,107,.28));flex:0 0 auto}.brand{gap:12px}
+/* Acabado medieval para tarjetas y paneles */
+:root{--card-edge:rgba(214,179,107,.48);--card-glow:rgba(214,179,107,.12)}
+.panel,.card,.callout,.quick,.item{
+ position:relative;border:1px solid var(--card-edge)!important;
+ background:linear-gradient(145deg,rgba(39,34,28,.96),rgba(23,26,32,.98) 42%,rgba(18,20,25,.98))!important;
+ box-shadow:inset 0 1px 0 rgba(255,239,190,.09),inset 0 0 24px rgba(214,179,107,.035),0 12px 28px rgba(0,0,0,.24)!important;
+ border-radius:8px;
+}
+.panel:before,.card:before,.callout:before,.quick:before,.item:before{
+ content:"";position:absolute;left:12px;right:12px;top:0;height:1px;
+ background:linear-gradient(90deg,transparent,rgba(240,217,159,.62),transparent);
+ pointer-events:none;
+}
+.card,.quick{transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.card:hover,.quick:hover{transform:translateY(-3px);border-color:#e4c47d!important;box-shadow:inset 0 1px 0 rgba(255,239,190,.14),0 14px 32px rgba(0,0,0,.34),0 0 18px var(--card-glow)!important}
+.tag{display:inline-flex;align-items:center;padding:4px 10px;border:1px solid rgba(214,179,107,.48);border-radius:3px;background:linear-gradient(90deg,rgba(141,52,52,.22),rgba(214,179,107,.09));color:var(--gold2);font:700 10px Arial,sans-serif;letter-spacing:1.2px;text-transform:uppercase}
+.btn{border:1px solid var(--gold)!important;border-radius:4px;background:linear-gradient(180deg,#4a351b,#24190f)!important;box-shadow:inset 0 1px 0 rgba(255,239,190,.16),0 4px 14px rgba(0,0,0,.25);color:#ffe6a6!important}
+.btn:hover{filter:brightness(1.16);box-shadow:0 0 16px rgba(214,179,107,.2)}
+.item{border-left:3px solid var(--gold)!important}
+.item.urgent{border-left-color:#d94b4b!important;background:linear-gradient(145deg,rgba(67,29,31,.95),rgba(24,22,26,.98))!important}
+.panel-head h2,.card h3,.item h3{ text-shadow:0 2px 12px rgba(0,0,0,.5)}
+@media(max-width:620px){.panel,.card,.callout{border-radius:6px}.card:hover,.quick:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.card,.quick{transition:none!important}}
+</style></head><body><div class="topline"></div><header><div class="nav">
 <a class="brand" href="portal.html"><img class="brand-crest" src="escudo-familia-tururu.png" alt="Escudo oficial de Familia Tururu"><span>1350 <span style="color:var(--gold)">|</span> FAMILIA TURURU</span></a>
 <button class="menu" id="menuBtn" aria-label="Abrir menú">☰ MENÚ</button>
 <nav id="nav"><a href="portal.html">Inicio</a><a href="anuncios.html">Anuncios</a><a href="eventos.html">Eventos</a><a href="reglamentos.html">Reglamentos</a><a href="estrategias.html">Estrategias</a><a href="reclutamiento.html">Reclutamiento</a></nav>
