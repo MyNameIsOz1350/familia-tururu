@@ -24,6 +24,20 @@ content:
             - Evento
             - KvK
             - Importante
+      - name: prioridad
+        label: Prioridad
+        type: select
+        options:
+          values:
+            - Normal
+            - Importante
+            - Urgente
+      - name: hora_cdmx
+        label: Hora de Ciudad de México
+        type: string
+      - name: hora_utc
+        label: Hora UTC del juego
+        type: string
       - name: texto
         label: Contenido
         type: text
