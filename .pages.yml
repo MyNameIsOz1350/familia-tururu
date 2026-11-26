@@ -42,3 +42,91 @@ content:
         label: Contenido
         type: text
         required: true
+
+  - name: eventos
+    label: Eventos y KvK
+    type: collection
+    path: content/eventos
+    format: json
+    filename: "{primary}.json"
+    fields:
+      - name: titulo
+        label: Nombre del evento
+        type: string
+        required: true
+      - name: fecha
+        label: Fecha
+        type: date
+      - name: categoria
+        label: Categoría
+        type: select
+        options:
+          values:
+            - Actividad recurrente
+            - KvK
+            - Evento del reino
+            - Otro
+      - name: hora_cdmx
+        label: Hora de Ciudad de México
+        type: string
+      - name: hora_utc
+        label: Hora UTC del juego
+        type: string
+      - name: texto
+        label: Información del evento
+        type: text
+        required: true
+  - name: reglamentos
+    label: Reglamentos y jerarquía
+    type: collection
+    path: content/reglamentos
+    format: json
+    filename: "{primary}.json"
+    fields:
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+      - name: categoria
+        label: Categoría
+        type: select
+        options:
+          values:
+            - Jerarquía
+            - Reglamento general
+            - MGE
+            - Otro
+      - name: texto
+        label: Contenido
+        type: text
+        required: true
+  - name: estrategias
+    label: Guías y estrategias
+    type: collection
+    path: content/estrategias
+    format: json
+    filename: "{primary}.json"
+    fields:
+      - name: titulo
+        label: Título de la guía
+        type: string
+        required: true
+      - name: categoria
+        label: Categoría
+        type: select
+        options:
+          values:
+            - KvK
+            - Comandantes y marchas
+            - Campo abierto
+            - Otro
+      - name: resumen
+        label: Resumen
+        type: string
+      - name: texto
+        label: Contenido de la guía
+        type: text
+        required: true
+      - name: enlace
+        label: Enlace opcional
+        type: string
