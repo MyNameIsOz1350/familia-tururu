@@ -1,9 +1,9 @@
 {
-  "titulo": "Bienvenidos al portal Familia Tururu",
+  "titulo": "PRUEBA: Comunicado urgente Tururu",
   "fecha": "2026-11-25",
   "categoria": "Importante",
   "prioridad": "Urgente",
   "hora_cdmx": "13:00",
   "hora_utc": "19:00",
-  "texto": "Anuncio urgente para quemar gente"
+  "texto": "Este es un anuncio de prueba para comprobar que el portal muestra correctamente los comunicados."
 }
