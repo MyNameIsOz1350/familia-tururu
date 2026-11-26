@@ -9,12 +9,23 @@
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080d16}
 .cover{position:absolute;width:min(100vw,177.586vh);height:min(100vh,56.31vw);aspect-ratio:1648/928;left:50%;top:50%;transform:translate(-50%,-50%)}
 .cover img{display:block;width:100%;height:100%;object-fit:contain}
+.cover::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 78%,rgba(255,174,45,.13),transparent 43%);opacity:.45;animation:ambientGlow 6s ease-in-out infinite alternate}
+.shield-shine{position:absolute;z-index:1;left:42.2%;top:6.5%;width:16.8%;height:33%;pointer-events:none;overflow:hidden;clip-path:polygon(50% 0,100% 13%,96% 69%,50% 100%,4% 69%,0 13%)}
+.shield-shine::after{content:"";position:absolute;inset:-40% -100%;background:linear-gradient(110deg,transparent 42%,rgba(255,255,220,.08) 47%,rgba(255,236,150,.65) 50%,rgba(255,255,255,.12) 53%,transparent 58%);transform:translateX(-110%);animation:shieldGleam 7s ease-in-out infinite}
+.enter{overflow:hidden;isolation:isolate;animation:buttonPulse 3.8s ease-in-out infinite}
+.enter::after{content:"";position:absolute;inset:-60% -90%;z-index:-1;background:linear-gradient(105deg,transparent 43%,rgba(255,244,190,.08) 47%,rgba(255,231,133,.5) 50%,rgba(255,255,255,.1) 53%,transparent 58%);transform:translateX(-110%);animation:buttonGleam 4.8s ease-in-out infinite}
+@keyframes shieldGleam{0%,48%{transform:translateX(-110%)}72%,100%{transform:translateX(110%)}}
+@keyframes buttonGleam{0%,55%{transform:translateX(-110%)}82%,100%{transform:translateX(110%)}}
+@keyframes buttonPulse{0%,100%{box-shadow:0 0 8px #ffc94b,0 0 22px #e99b19,inset 0 0 10px #d18a1b}50%{box-shadow:0 0 12px #ffe18a,0 0 30px #f2ad32,inset 0 0 14px #e7a52d}}
+@keyframes ambientGlow{from{opacity:.25}to{opacity:.65}}
 .enter{position:absolute;left:37.7%;top:77.1%;width:24.6%;height:7.2%;display:flex;align-items:center;justify-content:center;border:3px solid #f7c94d;border-radius:15px;background:linear-gradient(180deg,#4a2108 0%,#170b05 48%,#321507 100%);box-shadow:0 0 8px #ffc94b,0 0 22px #e99b19,inset 0 0 10px #d18a1b;color:#ffe17a;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:clamp(11px,1.85vw,29px);font-weight:800;letter-spacing:.08em;text-shadow:0 1px 3px #8a4d00;cursor:pointer}
 .enter:hover{filter:brightness(1.18);transform:scale(1.02)}
 .enter:focus-visible{outline:3px solid #fff1b8;outline-offset:4px}
 @media(max-width:600px){.enter{border-width:2px;border-radius:9px;letter-spacing:.04em}}
+@media(prefers-reduced-motion:reduce){.cover::after,.shield-shine::after,.enter,.enter::after{animation:none}}
 </style></head><body>
 <main class="cover">
 <img src="d0e1b123-1b4b-4bc7-836b-5a2205ca3bdc.png" alt="Familia Tururu — Reino 1350">
+<span class="shield-shine" aria-hidden="true"></span>
 <a class="enter" href="portal.html" aria-label="Entrar al portal">ENTRAR AL PORTAL</a>
 </main></body></html>
